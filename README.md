@@ -1,2 +1,2 @@
-# tinyC
+# tinyCompiler
 Very simple compiler
