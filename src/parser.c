@@ -1,8 +1,29 @@
 #include "../include/parser.h"
 
+// kind list
+enum
+{
+	K_ADD,
+	K_SUB,
+	K_MULT,
+	K_DIV,
+	K_NUM,
+	K_NONE,
+};
+
 static Token token;
 
-static int expr();
+static Node* expr();
+
+static Node* new_node(int kind)
+{
+	Node *n = malloc(sizeof(Node));
+	n->kind = kind;
+	n->value = 0;
+	n->n1 = NULL;
+	n->n2 = NULL;
+	return n;
+}
 
 static void match_token(int type)
 {
@@ -11,20 +32,21 @@ static void match_token(int type)
 	token = get_next_token();
 }
 
-static int fact()
+static Node* fact()
 {
-	int result = 0;
+	Node *n = new_node(K_NONE);
 
 	switch (token.type)
 	{
 		case NUMBER:
-			result = token.value;
+			n->kind = K_NUM;
+			n->value = token.value;
 			token = get_next_token();
 			break;
 
 		case LP:
 			match_token(LP);
-			result = expr();
+			n = expr();
 			match_token(RP);
 			break;
 
@@ -33,60 +55,76 @@ static int fact()
 			break;
 	}
 
-	return result;
+	return n;
 }
 
-static int term()
+static Node* term()
 {
-	int result = fact();
-	int buf_result;
+	Node *n;
+	Node *n1, *n2;
 	int saved_char;
+
+	n = fact();
 
 	while (token.type == MULT || token.type == DIVISION)
 	{
 		saved_char = token.type;
 		token = get_next_token();
-		buf_result = fact();
+
+		n1 = n;
+		n2 = fact();
+
+		n = new_node(K_NONE);
+		n->n1 = n1;
+		n->n2 = n2;
 
 		switch (saved_char)
 		{
-			case MULT:     result *= buf_result; break;
-			case DIVISION: result /= buf_result; break;
+			case MULT:     n->kind = K_MULT; break;
+			case DIVISION: n->kind = K_DIV; break;
 		}
 	}
 
-	return result;
+	return n;
 }
 
-static int expr()
+static Node* expr()
 {
-	int result = term();
-	int buf_result;
+	Node *n;
+	Node *n1, *n2;
 	int saved_char;
+
+	n = term();
 
 	while (token.type == PLUS || token.type == MINUS)
 	{
 		saved_char = token.type;
 		token = get_next_token();
-		buf_result = term();
+
+		n1 = n;
+		n2 = fact();
+
+		n = new_node(K_NONE);
+		n->n1 = n1;
+		n->n2 = n2;
 
 		switch (saved_char)
 		{
-			case PLUS:  result += buf_result; break;
-			case MINUS: result -= buf_result; break;
+			case PLUS:  n->kind = K_ADD; break;
+			case MINUS: n->kind = K_SUB; break;
 		}
 	}
 
-	return result;
+	return n;
 }
 
-int parser()
+Node* parser()
 {
 	token = get_next_token();
-	int result = expr();
+	Node *n = expr();
 
 	if (token.type != EOI)
 		error();
 
-	return result;
+	return n;
 }
