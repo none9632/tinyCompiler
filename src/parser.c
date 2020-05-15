@@ -1,16 +1,5 @@
 #include "../include/parser.h"
 
-// kind list
-enum
-{
-	K_ADD,
-	K_SUB,
-	K_MULT,
-	K_DIV,
-	K_NUM,
-	K_NONE,
-};
-
 static Token token;
 
 static Node* expr();
@@ -102,7 +91,7 @@ static Node* expr()
 		token = get_next_token();
 
 		n1 = n;
-		n2 = fact();
+		n2 = term();
 
 		n = new_node(K_NONE);
 		n->n1 = n1;
