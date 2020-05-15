@@ -62,7 +62,7 @@ Token get_next_token()
 			token.type = EOI;
 			break;
 		default:
-			error();
+			error("unknown character");
 			break;
 	}
 

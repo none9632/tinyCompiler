@@ -14,8 +14,8 @@ static void usage(int exit_status)
 {
 	printf("Usage: tinyCompiler [options] <expression>\n");
 	printf("\nOptions:\n");
-	printf("    -h              display this information\n");
-	printf("    -print-ast      display AST\n");
+	printf("    --help          display this information\n");
+	printf("    --print-ast     display AST\n");
 	printf("\n");
 	exit(exit_status);
 }
