@@ -4,6 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void error();
+void error(char *message);
 
 #endif

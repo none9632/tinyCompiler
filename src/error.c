@@ -1,7 +1,7 @@
 #include "../include/error.h"
 
-void error()
+void error(char *message)
 {
-	printf("ERROR\n");
+	printf("error: %s\n", message);
 	exit(EXIT_FAILURE);
 }

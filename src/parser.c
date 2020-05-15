@@ -17,7 +17,7 @@ static Node* new_node(int kind)
 static void match_token(int type)
 {
 	if (token.type != type)
-		error();
+		error("syntax error");
 	token = get_next_token();
 }
 
@@ -40,7 +40,7 @@ static Node* fact()
 			break;
 
 		default:
-			error();
+			error("syntax error");
 			break;
 	}
 
@@ -113,7 +113,7 @@ Node* parser()
 	Node *n = expr();
 
 	if (token.type != EOI)
-		error();
+		error("syntax error");
 
 	return n;
 }
