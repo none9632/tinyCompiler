@@ -4,10 +4,10 @@ static Token token;
 
 static Node* expr();
 
-static Node* new_node(int kind)
+static Node* new_node()
 {
 	Node *n = malloc(sizeof(Node));
-	n->kind = kind;
+	n->kind = K_NONE;
 	n->value = 0;
 	n->n1 = NULL;
 	n->n2 = NULL;
@@ -23,7 +23,7 @@ static void match_token(int type)
 
 static Node* fact()
 {
-	Node *n = new_node(K_NONE);
+	Node *n = new_node();
 
 	switch (token.type)
 	{
@@ -63,7 +63,7 @@ static Node* term()
 		n1 = n;
 		n2 = fact();
 
-		n = new_node(K_NONE);
+		n = new_node();
 		n->n1 = n1;
 		n->n2 = n2;
 
@@ -93,7 +93,7 @@ static Node* expr()
 		n1 = n;
 		n2 = term();
 
-		n = new_node(K_NONE);
+		n = new_node();
 		n->n1 = n1;
 		n->n2 = n2;
 

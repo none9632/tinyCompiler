@@ -1,9 +1,9 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../include/lexer.h"
-#include "../include/error.h"
-#include "../include/node.h"
+#include "lexer.h"
+#include "error.h"
+#include "node.h"
 
 Node* parser();
 
