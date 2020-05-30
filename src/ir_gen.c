@@ -29,7 +29,7 @@ static void arithmetic_op_gen(int kind, int reg1, int reg2)
 			ir = new_ir(C_SUB, reg1, reg2);
 			break;
 		case K_MULT:
-			ir = new_ir(C_MULT, reg1, reg2);
+			ir = new_ir(C_MUL, reg1, reg2);
 			break;
 		case K_DIV:
 			ir = new_ir(C_DIV, reg1, reg2);
@@ -73,11 +73,11 @@ Vector* start_ir_gen(Node *n, int print_ir)
 
 			switch (ir->command)
 			{
-				case C_LOAD: printf("LOAD R%i %i\n",  ir->reg1, ir->reg2); break;
-				case C_ADD:  printf("ADD R%i R%i\n",  ir->reg1, ir->reg2); break;
-				case C_SUB:  printf("SUB R%i R%i\n",  ir->reg1, ir->reg2); break;
-				case C_MULT: printf("MULT R%i R%i\n", ir->reg1, ir->reg2); break;
-				case C_DIV:  printf("DIV R%i R%i\n",  ir->reg1, ir->reg2);break;
+				case C_LOAD: printf("LOAD R%i %i\n", ir->reg1, ir->reg2); break;
+				case C_ADD:  printf("ADD R%i R%i\n", ir->reg1, ir->reg2); break;
+				case C_SUB:  printf("SUB R%i R%i\n", ir->reg1, ir->reg2); break;
+				case C_MUL:  printf("MUL R%i R%i\n", ir->reg1, ir->reg2); break;
+				case C_DIV:  printf("DIV R%i R%i\n", ir->reg1, ir->reg2); break;
 			}
 		}
 	}

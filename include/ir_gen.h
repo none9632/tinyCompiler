@@ -12,7 +12,7 @@ enum
 	C_LOAD,
 	C_ADD,
 	C_SUB,
-	C_MULT,
+	C_MUL,
 	C_DIV,
 };
 

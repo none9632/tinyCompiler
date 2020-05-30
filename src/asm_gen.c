@@ -79,15 +79,13 @@ void code_gen(Vector *ir_code)
 				break;
 			case C_MUL:
 				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg1);
-				fprintf(file, "\tmov ebx, [R%i]\n", ir->reg2);
-				fprintf(file, "\timul ebx\n");
+				fprintf(file, "\timul DWORD [R%i]\n", ir->reg2);
 				fprintf(file, "\tmov DWORD [R%i], eax\n", ir->reg1);
 				break;
 			case C_DIV:
 				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg1);
 				fprintf(file, "\tcdq\n");
-				fprintf(file, "\tmov ebx, [R%i]\n", ir->reg2);
-				fprintf(file, "\tidiv ebx\n");
+				fprintf(file, "\tidiv DWORD [R%i]\n", ir->reg2);
 				fprintf(file, "\tmov DWORD [R%i], eax\n", ir->reg1);
 				break;
 		}
@@ -95,4 +93,6 @@ void code_gen(Vector *ir_code)
 	}
 
 	end_program();
+
+	fclose(file);
 }

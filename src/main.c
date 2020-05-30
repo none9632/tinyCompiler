@@ -6,7 +6,7 @@
 #include "../include/parser.h"
 #include "../include/node.h"
 #include "../include/ir_gen.h"
-#include "../include/code_gen.h"
+#include "../include/asm_gen.h"
 
 static int   help      = 0;
 static int   print_ast = 0;
