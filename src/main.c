@@ -10,6 +10,7 @@
 
 static int   help      = 0;
 static int   print_ast = 0;
+static int   print_ir  = 0;
 static char *expr      = NULL;
 
 static void usage(int exit_status)
@@ -18,6 +19,7 @@ static void usage(int exit_status)
 	printf("\nOptions:\n");
 	printf("    --help          display this information\n");
 	printf("    --print-ast     display AST\n");
+	printf("    --print-ir      display intermediate representation of the code\n");
 	printf("\n");
 	exit(exit_status);
 }
@@ -34,6 +36,8 @@ static void parse_options(int argc, char **argv)
 				help = 1;
 			else if (!strcmp(opt, "--print-ast"))
 				print_ast = 1;
+			else if (!strcmp(opt, "--print-ir"))
+				print_ir = 1;
 			else
 			{
 				printf("error: invalid option\n");
@@ -70,6 +74,6 @@ int main(int argc, char **argv)
 	Node *n = parser();
 	if (print_ast == 1)
 		output_node(n, 0);
-	Vector *ir_code = start_ir_gen(n);
+	Vector *ir_code = start_ir_gen(n, print_ir);
 	code_gen(ir_code);
 }

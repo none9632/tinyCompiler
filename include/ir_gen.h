@@ -24,6 +24,6 @@ typedef struct ir
 }
 ir_t;
 
-Vector* start_ir_gen(Node *n);
+Vector* start_ir_gen(Node *n, int print_ir);
 
 #endif

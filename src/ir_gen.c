@@ -59,11 +59,28 @@ static void ir_gen(Node *n, int result_reg)
 
 }
 
-Vector* start_ir_gen(Node *n)
+Vector* start_ir_gen(Node *n, int print_ir)
 {
 	ir_code = new_vec();
 
 	ir_gen(n, 0);
+
+	if (print_ir)
+	{
+		for (int i = 0; i < ir_code->length; ++i)
+		{
+			ir_t *ir = ir_code->data[i];
+
+			switch (ir->command)
+			{
+				case C_LOAD: printf("LOAD R%i %i\n",  ir->reg1, ir->reg2); break;
+				case C_ADD:  printf("ADD R%i R%i\n",  ir->reg1, ir->reg2); break;
+				case C_SUB:  printf("SUB R%i R%i\n",  ir->reg1, ir->reg2); break;
+				case C_MULT: printf("MULT R%i R%i\n", ir->reg1, ir->reg2); break;
+				case C_DIV:  printf("DIV R%i R%i\n",  ir->reg1, ir->reg2);break;
+			}
+		}
+	}
 
 	return ir_code;
 }
