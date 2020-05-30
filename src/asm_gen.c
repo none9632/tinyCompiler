@@ -1,4 +1,4 @@
-#include "../include/code_gen.h"
+#include "../include/asm_gen.h"
 
 static int count_R = -1;
 static FILE *file;
@@ -54,7 +54,6 @@ void code_gen(Vector *ir_code)
 			count_R = ir->reg1;
 	}
 
-
 	init_data_section();
 	init_text_section();
 	start_program();
@@ -78,7 +77,7 @@ void code_gen(Vector *ir_code)
 				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg2);
 				fprintf(file, "\tsub DWORD [R%i], eax\n", ir->reg1);
 				break;
-			case C_MULT:
+			case C_MUL:
 				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg1);
 				fprintf(file, "\tmov ebx, [R%i]\n", ir->reg2);
 				fprintf(file, "\timul ebx\n");
@@ -96,18 +95,4 @@ void code_gen(Vector *ir_code)
 	}
 
 	end_program();
-
-//	for (int i = 0; i < ir_code->length; ++i)
-//	{
-//		ir_t *ir = ir_code->data[i];
-//
-//		switch (ir->command)
-//		{
-//			case C_LOAD: printf("LOAD R%i %i\n",  ir->reg1, ir->reg2);  break;
-//			case C_ADD:  printf("ADD R%i R%i\n",  ir->reg1, ir->reg2);  break;
-//			case C_SUB:  printf("SUB R%i R%i\n",  ir->reg1, ir->reg2);  break;
-//			case C_MULT: printf("MULT R%i R%i\n", ir->reg1, ir->reg2); break;
-//			case C_DIV:  printf("DIV R%i R%i\n",  ir->reg1, ir->reg2);  break;
-//		}
-//	}
 }
