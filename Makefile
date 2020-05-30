@@ -21,6 +21,7 @@ $(TARGET): $(notdir $(OBJ_FILES))
 test: rebuild
 	@cd test &&\
 	./test.sh
+	@rm test/output.o test/output.asm test/a.out
 
 rebuild: clean $(TARGET)
 

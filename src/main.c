@@ -6,6 +6,7 @@
 #include "../include/parser.h"
 #include "../include/node.h"
 #include "../include/ir_gen.h"
+#include "../include/code_gen.h"
 
 static int   help      = 0;
 static int   print_ast = 0;
@@ -69,5 +70,6 @@ int main(int argc, char **argv)
 	Node *n = parser();
 	if (print_ast == 1)
 		output_node(n, 0);
-	start_ir_gen(n);
+	Vector *ir_code = start_ir_gen(n);
+	code_gen(ir_code);
 }

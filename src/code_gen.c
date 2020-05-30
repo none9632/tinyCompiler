@@ -1,0 +1,113 @@
+#include "../include/code_gen.h"
+
+static int count_R = -1;
+static FILE *file;
+
+static void init_data_section()
+{
+	fprintf(file, "section .data\n");
+	fprintf(file, "\tformat db \"%%i\", 10, 0\n");
+
+	for (int i = 0; i <= count_R; ++i)
+		fprintf(file, "\tR%i dd 0d\n", i);
+
+	fprintf(file, "\n");
+}
+
+static void init_text_section()
+{
+	fprintf(file, "section .text\n");
+	fprintf(file, "global main\n");
+	fprintf(file, "extern printf\n");
+	fprintf(file, "\n");
+}
+
+static void start_program()
+{
+	fprintf(file, "main:\n");
+	fprintf(file, "\tsub rsp, 8\n");
+}
+
+static void end_program()
+{
+	fprintf(file, "\n");
+	fprintf(file, "\tmov esi, DWORD [R0]\n");
+	fprintf(file, "\tlea rdi, [rel format]\n");
+	fprintf(file, "\txor eax, eax\n");
+	fprintf(file, "\tcall printf\n");
+
+	fprintf(file, "\n");
+	fprintf(file, "\txor eax, eax\n");
+	fprintf(file, "\tadd rsp, 8\n");
+	fprintf(file, "\tret\n");
+}
+
+void code_gen(Vector *ir_code)
+{
+	file = fopen("output.asm", "w+");
+
+	for (int i = 0; i < ir_code->length; ++i)
+	{
+		ir_t *ir = ir_code->data[i];
+
+		if (ir->reg1 > count_R)
+			count_R = ir->reg1;
+	}
+
+
+	init_data_section();
+	init_text_section();
+	start_program();
+
+	for (int i = 0; i < ir_code->length; ++i)
+	{
+		ir_t *ir = ir_code->data[i];
+
+		fprintf(file, "\n");
+
+		switch (ir->command)
+		{
+			case C_LOAD:
+				fprintf(file, "\tmov DWORD [R%i], %id\n", ir->reg1, ir->reg2);
+				break;
+			case C_ADD:
+				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg2);
+				fprintf(file, "\tadd DWORD [R%i], eax\n", ir->reg1);
+				break;
+			case C_SUB:
+				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg2);
+				fprintf(file, "\tsub DWORD [R%i], eax\n", ir->reg1);
+				break;
+			case C_MULT:
+				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg1);
+				fprintf(file, "\tmov ebx, [R%i]\n", ir->reg2);
+				fprintf(file, "\timul ebx\n");
+				fprintf(file, "\tmov DWORD [R%i], eax\n", ir->reg1);
+				break;
+			case C_DIV:
+				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg1);
+				fprintf(file, "\tcdq\n");
+				fprintf(file, "\tmov ebx, [R%i]\n", ir->reg2);
+				fprintf(file, "\tidiv ebx\n");
+				fprintf(file, "\tmov DWORD [R%i], eax\n", ir->reg1);
+				break;
+		}
+
+	}
+
+	end_program();
+
+//	for (int i = 0; i < ir_code->length; ++i)
+//	{
+//		ir_t *ir = ir_code->data[i];
+//
+//		switch (ir->command)
+//		{
+//			case C_LOAD: printf("LOAD R%i %i\n",  ir->reg1, ir->reg2);  break;
+//			case C_ADD:  printf("ADD R%i R%i\n",  ir->reg1, ir->reg2);  break;
+//			case C_SUB:  printf("SUB R%i R%i\n",  ir->reg1, ir->reg2);  break;
+//			case C_MULT: printf("MULT R%i R%i\n", ir->reg1, ir->reg2); break;
+//			case C_DIV:  printf("DIV R%i R%i\n",  ir->reg1, ir->reg2);  break;
+//		}
+//	}
+}
