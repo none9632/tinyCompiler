@@ -1,6 +1,6 @@
 #include "../include/asm_gen.h"
 
-static int count_R = -1;
+static int   count_R = -1;
 static FILE *file;
 
 static void init_data_section()
@@ -89,7 +89,6 @@ void code_gen(Vector *ir_code)
 				fprintf(file, "\tmov DWORD [R%i], eax\n", ir->reg1);
 				break;
 		}
-
 	}
 
 	end_program();

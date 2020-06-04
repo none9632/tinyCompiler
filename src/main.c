@@ -72,8 +72,10 @@ int main(int argc, char **argv)
 
 	init_lexer(expr);
 	Node *n = parser();
+
 	if (print_ast == 1)
 		output_node(n, 0);
+
 	Vector *ir_code = start_ir_gen(n, print_ir);
 	code_gen(ir_code);
 }

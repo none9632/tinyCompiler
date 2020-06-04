@@ -7,17 +7,21 @@ results=0
 
 function test
 {
-    $program_path "$1"
-    nasm -f elf64 output.asm
-    gcc -no-pie output.o
-    output=$(./a.out)
+    output=$($program_path "$1")
+
+    if [ "$output" = "" ]
+    then
+        nasm -f elf64 output.asm
+        gcc -no-pie output.o
+        output=$(./a.out)
+    fi
 
     if [ "$output" = "$2" ]
     then
-        echo -e " <$green OK \e[0m>       $1 $output"
+        echo -e " $green OK \e[0m       $1"
     else
         results=1
-        echo -e " <$red ERROR \e[0m>    $1 $output"
+        echo -e " $red ERROR \e[0m    $1"
     fi
 }
 
@@ -34,6 +38,7 @@ then
     test "2*3+4*5" "26"
     test "50/10" "5"
     test "3/2" "1"
+    test "1/3" "0"
     test "6*3/2" "9"
     test "(2+3)*(4+5)" "45"
     test "1+2+3+4+5+6+7+8+9+10+11+12+13+14+15+16+17" "153"
@@ -41,6 +46,11 @@ then
     test "12 * (   32   )" "384"
     test "1+2*4+3*3" "18"
     test "1*3*1*4+2*4+3*3" "29"
+    test "12(32)" "error: syntax error"
+    test "5++" "error: syntax error"
+    test "532/" "error: syntax error"
+    test "()234" "error: syntax error"
+    test "word" "error: unknown character"
 else
     results=1
     echo ""
