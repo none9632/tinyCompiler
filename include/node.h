@@ -1,5 +1,5 @@
-#ifndef INCLUDE_H
-#define INCLUDE_H
+#ifndef NODE_H
+#define NODE_H
 
 #include <stdio.h>
 

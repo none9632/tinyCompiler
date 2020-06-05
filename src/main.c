@@ -13,7 +13,7 @@ static int   print_ast = 0;
 static int   print_ir  = 0;
 static char *expr      = NULL;
 
-static void usage(int exit_status)
+static void usage()
 {
 	printf("Usage: tinyCompiler [options] <expression>\n");
 	printf("\nOptions:\n");
@@ -21,7 +21,7 @@ static void usage(int exit_status)
 	printf("    --print-ast     display AST\n");
 	printf("    --print-ir      display intermediate representation of the code\n");
 	printf("\n");
-	exit(exit_status);
+	exit(EXIT_SUCCESS);
 }
 
 static void parse_options(int argc, char **argv)
@@ -41,7 +41,7 @@ static void parse_options(int argc, char **argv)
 			else
 			{
 				printf("error: invalid option\n");
-				usage(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 		else
@@ -51,7 +51,7 @@ static void parse_options(int argc, char **argv)
 			else
 			{
 				printf("error: invalid input\n");
-				usage(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}
@@ -61,14 +61,14 @@ int main(int argc, char **argv)
 {
 	parse_options(argc, argv);
 
+	if (help == 1)
+		usage(0);
+
 	if (expr == NULL)
 	{
 		printf("error: No input expression\n");
-		usage(1);
+		exit(EXIT_FAILURE);
 	}
-
-	if (help == 1)
-		usage(0);
 
 	init_lexer(expr);
 	Node *n = parser();
