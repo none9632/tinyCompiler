@@ -3,6 +3,16 @@
 // number of spaces or '|' to be printed
 static int column = 0;
 
+Node* new_node()
+{
+	Node *n = malloc(sizeof(Node));
+	n->kind = K_NONE;
+	n->value = 0;
+	n->n1 = NULL;
+	n->n2 = NULL;
+	return n;
+}
+
 /*
  * Outputs spaces and '|'
  * @param count_bar count vertical bar

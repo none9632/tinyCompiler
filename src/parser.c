@@ -4,16 +4,6 @@ static Token token;
 
 static Node* expr();
 
-static Node* new_node()
-{
-	Node *n = malloc(sizeof(Node));
-	n->kind = K_NONE;
-	n->value = 0;
-	n->n1 = NULL;
-	n->n2 = NULL;
-	return n;
-}
-
 static void match_token(int type)
 {
 	if (token.type != type)

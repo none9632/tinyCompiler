@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 // kind list
 enum
@@ -11,7 +12,7 @@ enum
 	K_MULT,
 	K_DIV,
 	K_NUM,
-	K_NONE,
+	K_NONE
 };
 
 typedef struct node
@@ -23,6 +24,7 @@ typedef struct node
 }
 Node;
 
-void output_node(Node *n, int count_bar);
+void  output_node (Node *n, int count_bar);
+Node *new_node    ();
 
 #endif
