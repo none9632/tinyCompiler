@@ -1,8 +1,5 @@
 #include "../include/node.h"
 
-// number of spaces or '|' to be printed
-static int column = 0;
-
 Node* new_node()
 {
 	Node *n = malloc(sizeof(Node));
@@ -13,62 +10,71 @@ Node* new_node()
 	return n;
 }
 
-/*
- * Outputs spaces and '|'
- * @param count_bar count vertical bar
- */
-static void print_spaces(int count_bar)
+static void print_kind(int kind, int value)
 {
-	for (int i = 0; i < column; i++)
+	switch (kind)
 	{
-		if (i % 4 == 0)
-		{
-			if (count_bar > 0)
-			{
-				printf("│");
-				count_bar--;
-			}
-			else
-				printf(" ");
-		}
-		else
-			printf(" ");
+		case K_ADD:  printf("+\n");         break;
+		case K_SUB:  printf("-\n");         break;
+		case K_MULT: printf("*\n");         break;
+		case K_DIV:  printf("/\n");         break;
+		case K_NUM:  printf("%i\n", value); break;
+		case K_NONE: printf("none\n");      break;
 	}
 }
 
 /*
- * Outputs the node diagram to the console
- * @param n         the node that will be displayed
- * @param count_bar count vertical bar
+ * The '│' symbol cannot be saved to the pointer so I save '|' and output '│'.
  */
-void output_node(Node *n, int count_bar)
+static void print_prefix(char *prefix, int prefix_len)
 {
-	if (n->kind == K_ADD  || n->kind == K_SUB ||
-	    n->kind == K_MULT || n->kind == K_DIV)
+	for (int i = 0; i < prefix_len; i++)
 	{
-		switch (n->kind)
-		{
-			case K_ADD:  printf("+\n"); break;
-			case K_SUB:  printf("-\n"); break;
-			case K_MULT: printf("*\n"); break;
-			case K_DIV:  printf("/\n"); break;
-
-		}
-
-		print_spaces(count_bar);
-		printf("├── ");
-		column += 4;
-		output_node(n->n1, count_bar + 1);
-
-		print_spaces(count_bar);
-		printf("└── ");
-		column += 4;
-		output_node(n->n2, count_bar);
+		if (prefix[i] == '|')
+			printf("│");
+		else
+			printf("%c", prefix[i]);
 	}
-	else if (n->kind == K_NUM)
-		printf("%i\n", n->value);
-	else if (n->kind == K_NONE)
-		printf("none\n");
+}
 
-	column -= 4;
+/*
+ * Adds '|   ' or '    ' to the prefix.
+ */
+static char *new_prefix(char *prefix, int prefix_len, int is_left)
+{
+	prefix = realloc(prefix, prefix_len + 4);
+
+	for (int i = prefix_len; i < prefix_len + 4; ++i)
+		prefix[i] = ' ';
+
+	if (is_left)
+		prefix[prefix_len] = '|';
+
+	return prefix;
+}
+
+void print_node(Node *n, char *prefix, int prefix_len, int is_left)
+{
+	if (n != NULL)
+	{
+		print_prefix(prefix, prefix_len);
+
+		printf("%s", (is_left ? "├── " : "└── "));
+
+		print_kind(n->kind, n->value);
+
+		prefix = new_prefix(prefix, prefix_len, is_left);
+		prefix_len += 4;
+
+		print_node(n->n1, prefix, prefix_len, 1);
+		print_node(n->n2, prefix, prefix_len, 0);
+	}
+}
+
+void start_print_node(Node *n)
+{
+	print_kind(n->kind, n->value);
+
+	print_node(n->n1, NULL, 0, 1);
+	print_node(n->n2, NULL, 0, 0);
 }

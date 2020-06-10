@@ -24,7 +24,7 @@ typedef struct node
 }
 Node;
 
-void  output_node (Node *n, int count_bar);
-Node *new_node    ();
+Node *new_node   ();
+void  start_print_node(Node *n);
 
 #endif

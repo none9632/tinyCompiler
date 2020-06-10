@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	Node *n = parser();
 
 	if (print_ast == 1)
-		output_node(n, 0);
+		start_print_node(n);
 
 	Vector *ir_code = start_ir_gen(n, print_ir);
 	code_gen(ir_code);
