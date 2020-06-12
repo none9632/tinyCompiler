@@ -54,8 +54,8 @@ static Node* term()
 		n2 = fact();
 
 		n = new_node();
-		n->n1 = n1;
-		n->n2 = n2;
+		n->lhs = n1;
+		n->rhs = n2;
 
 		switch (saved_char)
 		{
@@ -84,8 +84,8 @@ static Node* expr()
 		n2 = term();
 
 		n = new_node();
-		n->n1 = n1;
-		n->n2 = n2;
+		n->lhs = n1;
+		n->rhs = n2;
 
 		switch (saved_char)
 		{

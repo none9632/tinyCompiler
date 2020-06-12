@@ -19,12 +19,12 @@ typedef struct node
 {
 	int kind;
 	int value;
-	struct node *n1;
-	struct node *n2;
+	struct node *lhs;
+	struct node *rhs;
 }
 Node;
 
-Node *new_node   ();
-void  start_print_node(Node *n);
+Node *new_node         ();
+void  start_print_node (Node *n);
 
 #endif

@@ -46,8 +46,8 @@ static void ir_gen(Node *n, int result_reg)
 {
 	if (is_arithmetic_op(n->kind))
 	{
-		ir_gen(n->n1, result_reg);
-		ir_gen(n->n2, result_reg + 1);
+		ir_gen(n->lhs, result_reg);
+		ir_gen(n->rhs, result_reg + 1);
 		arithmetic_op_gen(n->kind, result_reg, result_reg + 1);
 	}
 	else
