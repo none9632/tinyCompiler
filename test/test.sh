@@ -5,9 +5,13 @@ red="\033[38;2;255;0;0m"
 green="\033[38;2;0;255;0m"
 results=0
 
+g_start=$(date +%s.%N)
+
 function test
 {
+    start=$(date +%s.%N)
     output=$($program_path "$1")
+    dif=$(echo "$(date +%s.%N) - $start" | bc)
 
     if [ "$output" = "" ]
     then
@@ -15,6 +19,8 @@ function test
         gcc -no-pie output.o
         output=$(./a.out)
     fi
+
+    printf " %.4fs |" $dif
 
     if [ "$output" = "$2" ]
     then
@@ -58,7 +64,11 @@ else
     echo ""
 fi
 
+g_dif=$(echo "$(date +%s.%N) - $g_start" | bc)
+
 echo "--------------------------------------------------------------------"
+
+printf " %.4fs |" $g_dif
 
 if [ $results -eq 1 ]
 then

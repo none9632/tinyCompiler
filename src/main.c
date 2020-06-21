@@ -71,11 +71,11 @@ int main(int argc, char **argv)
 	}
 
 	init_lexer(expr);
-	Node *n = parser();
+	Node *tree = parser();
 
 	if (print_ast == 1)
-		start_print_node(n);
+		start_print_node(tree);
 
-	Vector *ir_code = start_ir_gen(n, print_ir);
+	Vector *ir_code = start_ir_gen(tree, print_ir);
 	code_gen(ir_code);
 }
