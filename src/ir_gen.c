@@ -2,9 +2,9 @@
 
 static Vector *ir_code;
 
-static ir_t* new_ir(int command, int reg1, int reg2)
+static IR* new_ir(int command, int reg1, int reg2)
 {
-	ir_t* ir = malloc(sizeof(ir_t));
+	IR* ir = malloc(sizeof(IR));
 	ir->command = command;
 	ir->reg1 = reg1;
 	ir->reg2 = reg2;
@@ -18,7 +18,7 @@ static int is_arithmetic_op(int kind)
 
 static void arithmetic_op_gen(int kind, int reg1, int reg2)
 {
-	ir_t *ir;
+	IR *ir;
 
 	switch (kind)
 	{
@@ -52,7 +52,7 @@ static void ir_gen(Node *n, int result_reg)
 	}
 	else
 	{
-		ir_t *ir = new_ir(C_LOAD, result_reg, n->value);
+		IR *ir = new_ir(C_LOAD, result_reg, n->value);
 
 		vec_push(ir_code, ir);
 	}
@@ -63,7 +63,7 @@ static void print_ir()
 {
 	for (int i = 0; i < ir_code->length; ++i)
 	{
-		ir_t *ir = ir_code->data[i];
+		IR *ir = ir_code->data[i];
 
 		switch (ir->command)
 		{

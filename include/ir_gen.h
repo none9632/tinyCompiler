@@ -22,7 +22,7 @@ typedef struct ir
 	int reg1;
 	int reg2;
 }
-ir_t;
+IR;
 
 Vector* start_ir_gen(Node *n, int print_ir);
 

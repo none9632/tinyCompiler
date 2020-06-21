@@ -48,7 +48,7 @@ void code_gen(Vector *ir_code)
 
 	for (int i = 0; i < ir_code->length; ++i)
 	{
-		ir_t *ir = ir_code->data[i];
+		IR *ir = ir_code->data[i];
 
 		if (ir->reg1 > count_R)
 			count_R = ir->reg1;
@@ -60,7 +60,7 @@ void code_gen(Vector *ir_code)
 
 	for (int i = 0; i < ir_code->length; ++i)
 	{
-		ir_t *ir = ir_code->data[i];
+		IR *ir = ir_code->data[i];
 
 		fprintf(file, "\n");
 
