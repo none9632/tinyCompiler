@@ -11,6 +11,9 @@ Vector *new_vec()
 	v->length   = 0;
 	v->data     = malloc(sizeof(void *) * v->capacity);
 
+	if (v == NULL)
+		error("memory allocation error in new_vec()");
+
 	return v;
 }
 

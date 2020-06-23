@@ -14,7 +14,7 @@ typedef struct vector
 }
 Vector;
 
-Vector *new_vec  (void);
+Vector *new_vec  ();
 void    vec_push (Vector *v, void *elem);
 
 #endif

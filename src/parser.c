@@ -45,7 +45,7 @@ static Node* term()
 
 	n = fact();
 
-	while (token.type == MULT || token.type == DIVISION)
+	while (token.type == ASTERISK || token.type == SLASH)
 	{
 		saved_char = token.type;
 		token      = get_next_token();
@@ -59,8 +59,8 @@ static Node* term()
 
 		switch (saved_char)
 		{
-			case MULT:     n->kind = K_MULT; break;
-			case DIVISION: n->kind = K_DIV; break;
+			case ASTERISK:     n->kind = K_MULT; break;
+			case SLASH: n->kind = K_DIV; break;
 		}
 	}
 

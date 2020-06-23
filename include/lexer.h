@@ -10,8 +10,8 @@ enum
 	NUMBER,     // Number literal
 	PLUS,       // '+'
 	MINUS,      // '-'
-	MULT,       // '*'
-	DIVISION,   // '/'
+	ASTERISK,   // '*'
+	SLASH,      // '/'
 	LP,         // '('
 	RP,         // ')'
 	EOI         // End of input

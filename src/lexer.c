@@ -54,10 +54,10 @@ Token get_next_token()
 			token.type = MINUS;
 			break;
 		case '*':
-			token.type = MULT;
+			token.type = ASTERISK;
 			break;
 		case '/':
-			token.type = DIVISION;
+			token.type = SLASH;
 			break;
 		case '\0':
 			token.type = EOI;
