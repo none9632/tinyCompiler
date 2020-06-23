@@ -5,7 +5,8 @@ static char *input_str;
 static Token get_num_token()
 {
 	Token token;
-	token.type = NUMBER;
+
+	token.type  = NUMBER;
 	token.value = 0;
 	input_str--;
 

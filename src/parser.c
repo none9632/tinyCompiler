@@ -18,9 +18,9 @@ static Node* fact()
 	switch (token.type)
 	{
 		case NUMBER:
-			n->kind = K_NUM;
+			n->kind  = K_NUM;
 			n->value = token.value;
-			token = get_next_token();
+			token    = get_next_token();
 			break;
 
 		case LP:
@@ -48,12 +48,12 @@ static Node* term()
 	while (token.type == MULT || token.type == DIVISION)
 	{
 		saved_char = token.type;
-		token = get_next_token();
+		token      = get_next_token();
 
 		n1 = n;
 		n2 = fact();
 
-		n = new_node();
+		n      = new_node();
 		n->lhs = n1;
 		n->rhs = n2;
 
@@ -78,12 +78,12 @@ static Node* expr()
 	while (token.type == PLUS || token.type == MINUS)
 	{
 		saved_char = token.type;
-		token = get_next_token();
+		token      = get_next_token();
 
 		n1 = n;
 		n2 = term();
 
-		n = new_node();
+		n      = new_node();
 		n->lhs = n1;
 		n->rhs = n2;
 
@@ -100,6 +100,7 @@ static Node* expr()
 Node* parser()
 {
 	token = get_next_token();
+
 	Node *n = expr();
 
 	if (token.type != EOI)

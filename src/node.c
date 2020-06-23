@@ -5,10 +5,15 @@ char *prefix;
 Node* new_node()
 {
 	Node *n = malloc(sizeof(Node));
-	n->kind = K_NONE;
+
+	if (n == NULL)
+		error("memory allocation error in new_node()");
+
+	n->kind  = K_NONE;
 	n->value = 0;
-	n->lhs = NULL;
-	n->rhs = NULL;
+	n->lhs   = NULL;
+	n->rhs   = NULL;
+
 	return n;
 }
 
@@ -46,6 +51,9 @@ static void new_prefix(int prefix_len, int is_left)
 {
 	prefix = realloc(prefix, prefix_len + 4);
 
+	if (prefix == NULL)
+		error("memory allocation error in new_prefix()");
+
 	for (int i = prefix_len; i < prefix_len + 4; ++i)
 		prefix[i] = ' ';
 
@@ -58,9 +66,7 @@ void print_node(Node *n, int prefix_len, int is_left)
 	if (n != NULL)
 	{
 		print_prefix(prefix_len);
-
 		printf("%s", (is_left ? "├── " : "└── "));
-
 		print_kind(n->kind, n->value);
 
 		new_prefix(prefix_len, is_left);

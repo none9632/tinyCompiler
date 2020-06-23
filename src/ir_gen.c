@@ -5,9 +5,14 @@ static Vector *ir_code;
 static IR* new_ir(int command, int reg1, int reg2)
 {
 	IR* ir = malloc(sizeof(IR));
+
+	if (ir == NULL)
+		error("memory allocation error in new_ir()");
+
 	ir->command = command;
-	ir->reg1 = reg1;
-	ir->reg2 = reg2;
+	ir->reg1    = reg1;
+	ir->reg2    = reg2;
+
 	return ir;
 }
 
@@ -53,7 +58,6 @@ static void ir_gen(Node *n, int result_reg)
 	else
 	{
 		IR *ir = new_ir(C_LOAD, result_reg, n->value);
-
 		vec_push(ir_code, ir);
 	}
 

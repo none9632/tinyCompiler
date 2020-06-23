@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <malloc.h>
 
+#include "error.h"
+
 typedef struct vector
 {
 	void **data;
@@ -12,7 +14,7 @@ typedef struct vector
 }
 Vector;
 
-Vector *new_vec(void);
-void vec_push(Vector *v, void *elem);
+Vector *new_vec  (void);
+void    vec_push (Vector *v, void *elem);
 
 #endif
