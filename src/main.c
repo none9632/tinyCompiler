@@ -65,10 +65,7 @@ int main(int argc, char **argv)
 		usage(0);
 
 	if (expr == NULL)
-	{
-		printf("error: No input expression\n");
-		exit(EXIT_FAILURE);
-	}
+		error("no input expression");
 
 	init_lexer(expr);
 	Node *tree = parser();

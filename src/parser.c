@@ -40,7 +40,7 @@ static Node* fact()
 static Node* term()
 {
 	Node *n;
-	Node *n1, *n2;
+	Node *lhs, *rhs;
 	int saved_char;
 
 	n = fact();
@@ -50,17 +50,17 @@ static Node* term()
 		saved_char = token.type;
 		token      = get_next_token();
 
-		n1 = n;
-		n2 = fact();
+		lhs = n;
+		rhs = fact();
 
 		n      = new_node();
-		n->lhs = n1;
-		n->rhs = n2;
+		n->lhs = lhs;
+		n->rhs = rhs;
 
 		switch (saved_char)
 		{
-			case ASTERISK:     n->kind = K_MULT; break;
-			case SLASH: n->kind = K_DIV; break;
+			case ASTERISK: n->kind = K_MULT; break;
+			case SLASH:    n->kind = K_DIV; break;
 		}
 	}
 
@@ -70,7 +70,7 @@ static Node* term()
 static Node* expr()
 {
 	Node *n;
-	Node *n1, *n2;
+	Node *lhs, *rhs;
 	int saved_char;
 
 	n = term();
@@ -80,12 +80,12 @@ static Node* expr()
 		saved_char = token.type;
 		token      = get_next_token();
 
-		n1 = n;
-		n2 = term();
+		lhs = n;
+		rhs = term();
 
 		n      = new_node();
-		n->lhs = n1;
-		n->rhs = n2;
+		n->lhs = lhs;
+		n->rhs = rhs;
 
 		switch (saved_char)
 		{
