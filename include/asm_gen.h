@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "ir_gen.h"
+#include "error.h"
 
 void code_gen(Vector *ir_code);
 

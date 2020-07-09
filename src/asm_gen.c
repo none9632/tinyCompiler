@@ -46,6 +46,11 @@ void code_gen(Vector *ir_code)
 {
 	file = fopen("output.asm", "w+");
 
+	if (file == NULL)
+	{
+		error("file 'output.asm' can't be created");
+	}
+
 	for (int i = 0; i < ir_code->length; ++i)
 	{
 		IR *ir = ir_code->data[i];
