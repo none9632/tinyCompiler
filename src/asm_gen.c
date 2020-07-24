@@ -47,9 +47,7 @@ void code_gen(Vector *ir_code)
 	file = fopen("output.asm", "w+");
 
 	if (file == NULL)
-	{
 		error("file 'output.asm' can't be created");
-	}
 
 	for (int i = 0; i < ir_code->length; ++i)
 	{
@@ -71,7 +69,7 @@ void code_gen(Vector *ir_code)
 		switch (ir->command)
 		{
 			case C_LOAD:
-				fprintf(file, "\tmov DWORD [R%i], %id\n", ir->reg1, ir->reg2);
+				fprintf(file, "\tmov DWORD [R%i], %i\n", ir->reg1, ir->reg2);
 				break;
 			case C_ADD:
 				fprintf(file, "\tmov eax, DWORD [R%i]\n", ir->reg2);

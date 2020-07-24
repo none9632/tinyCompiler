@@ -5,13 +5,13 @@ red="\033[38;2;255;0;0m"
 green="\033[38;2;0;255;0m"
 results=0
 
-g_start=$(date +%s.%N)
+g_start=$(date +%s%N)
 
 function test
 {
-    start=$(date +%s.%N)
+    start=$(date +%s%N)
     output=$($program_path "$1")
-    dif=$(echo "$(date +%s.%N) - $start" | bc)
+    dif=$(echo "scale=4;($(date +%s%N) - $start)/1000000000" | bc)
 
     if [ "$output" = "" ]
     then
@@ -20,22 +20,41 @@ function test
         output=$(./a.out)
     fi
 
-    printf " %.4fs |" $dif
+    if [ "${dif:0:1}" = "." ]
+    then
+        printf " 0%ss |" $dif
+    else
+        printf " %ss |" $dif
+    fi
 
     if [ "$output" = "$2" ]
     then
         echo -e " -$green OK \e[0m-      $1"
     else
         results=1
-        echo -e " -$red ERROR \e[0m-   $1"
+        echo -e " -$red ERROR \e[0m-   $1 $output"
     fi
 }
+
+gcc_path=$(command -v gcc)
+nasm_path=$(command -v nasm)
+
+if [ "$nasm_path" = "" ]
+then
+    echo "error: to run this script, nasm must be installed"
+    exit 0
+fi
+if [ "$gcc_path" = "" ]
+then
+    echo "error: to run this script, gcc must be installed"
+    exit 0
+fi
 
 echo "--------------------------------------------------------------------"
 echo " Start program testing"
 echo "--------------------------------------------------------------------"
 
-if [ -e $program_path ]
+if [ -f $program_path ]
 then
     test "0" "0"
     test "1+1" "2"
@@ -64,11 +83,15 @@ else
     echo ""
 fi
 
-g_dif=$(echo "$(date +%s.%N) - $g_start" | bc)
-
 echo "--------------------------------------------------------------------"
 
-printf " %.4fs |" $g_dif
+g_dif=$(echo "scale=4;($(date +%s%N) - $g_start)/1000000000" | bc)
+if [ "${g_dif:0:1}" = "." ]
+then
+    printf " 0%ss |" $g_dif
+else
+    printf " %ss |" $g_dif
+fi
 
 if [ $results -eq 1 ]
 then
@@ -78,3 +101,5 @@ else
 fi
 
 echo "--------------------------------------------------------------------"
+
+rm output.o output.asm a.out
